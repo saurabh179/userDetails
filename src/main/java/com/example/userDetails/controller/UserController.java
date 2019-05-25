@@ -1,6 +1,8 @@
 package com.example.userDetails.controller;
 
 
+import com.example.userDetails.entity.UserEntity;
+import com.example.userDetails.model.SuccessResponseDTO;
 import com.example.userDetails.model.UserDTO;
 import com.example.userDetails.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,7 @@ public class UserController {
 
 
     @GetMapping("/login")
-    public String checkUser(@RequestParam String email , @RequestParam String password){
+    public SuccessResponseDTO checkUser(@RequestParam String email , @RequestParam String password){
 
         String e = email;
         String p = password;
@@ -35,14 +37,10 @@ public class UserController {
 
 
     @PostMapping(value = "/signup")
-    public boolean createUser(@RequestBody UserDTO userDTO){
-        try {
-            userService.createUser(userDTO);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
+    public UserEntity createUser(@RequestBody UserDTO userDTO){
+
+        return userService.createUser(userDTO);
+
     }
 
 
@@ -59,5 +57,10 @@ public class UserController {
     @GetMapping("/logout")
     public boolean deleteToken(@RequestParam String token){
         return userService.deleteToken(token);
+    }
+
+    @GetMapping("/checktoken")
+    public boolean checkByToken(@RequestParam String token,@RequestParam String email){
+        return userService.checkByToken(token,email);
     }
 }
