@@ -24,8 +24,8 @@ public class UserController {
 
 
 
-    @RequestMapping("/login")
-    public boolean checkUser(@RequestParam String email , @RequestParam String password){
+    @GetMapping("/login")
+    public String checkUser(@RequestParam String email , @RequestParam String password){
 
         String e = email;
         String p = password;
@@ -54,5 +54,10 @@ public class UserController {
     @DeleteMapping("/delete")
     public UserDTO deleteUser(@RequestParam String email){
         return userService.deleteUser(email);
+    }
+
+    @GetMapping("/logout")
+    public boolean deleteToken(@RequestParam String token){
+        return userService.deleteToken(token);
     }
 }

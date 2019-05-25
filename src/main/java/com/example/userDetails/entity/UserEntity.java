@@ -16,6 +16,9 @@ public class UserEntity {
     @Column(name = "password")
     private String password;
 
+    @Column(name="token")
+    private String token;
+
 
     public String getEmail() {
         return email;
@@ -31,5 +34,13 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

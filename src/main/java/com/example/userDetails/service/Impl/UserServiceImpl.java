@@ -26,12 +26,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean checkUserByEmail(String email,String password) {
+    public String checkUserByEmail(String email,String password) {
         UserEntity result = userRepository.findOne(email);
         if((!result.getPassword().equals( password))){
-            return false;
+            return null;
         }else{
-            return true;
+            long random = (int)Math.random()*100000000;
+            String token = random+email;
+            UserEntity user = userRepository.findOne(email);
+            user.setToken(token);
+            userRepository.save(user);
+            return token;
         }
     }
 
@@ -58,5 +63,16 @@ public class UserServiceImpl implements UserService {
         BeanUtils.copyProperties(result, resultDTO);
 
         return resultDTO;
+    }
+
+    @Override
+    public boolean deleteToken(String token) {
+        UserEntity userEntity = userRepository.findByToken(token);
+        if(userEntity != null){
+            userEntity.setToken(null);
+            userRepository.save(userEntity);
+            return true;
+        }
+        return false;
     }
 }
